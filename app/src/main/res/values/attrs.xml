@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="R" format="float" />
+    <attr name="G" format="float" />
+    <attr name="B" format="float" />
+    <attr name="A" format="float" />
+
+
+    <declare-styleable name="ProcessImageView">
+        <attr name="R" />
+        <attr name="G" />
+        <attr name="B" />
+        <attr name="A" />
+    </declare-styleable>
+
+</resources>

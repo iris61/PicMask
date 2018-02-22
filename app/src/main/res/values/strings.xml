@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PicMask</string>
+    <string name="title_activity_edit_pic_comment">EditPicCommentActivity</string>
+</resources>
