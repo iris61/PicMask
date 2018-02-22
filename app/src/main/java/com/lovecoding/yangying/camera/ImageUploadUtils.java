@@ -25,10 +25,10 @@ public class ImageUploadUtils {
     private static final String TAG = "uploadFile";
     private static final int TIME_OUT = 10 * 10000000; // 超时时间
     private static final String CHARSET = "utf-8"; // 设置编码
-    public static final String SUCCESS = "1";
-    public static final String FAILURE = "0";
+    public static final int SUCCESS = 1;
+    public static final int FAILURE = 0;
 
-    public static String uploadFile(File file) {
+    public static int uploadFile(File file) {
         String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
         String PREFIX = "--", LINE_END = "\r\n";
         String CONTENT_TYPE = "multipart/form-data"; // 内容类型

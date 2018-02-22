@@ -1,5 +1,8 @@
 package com.lovecoding.yangying.camera;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -10,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.lovecoding.yangying.picmask.MainActivity;
 import com.lovecoding.yangying.picmask.R;
 import com.lovecoding.yangying.tools.BaseAcitivity;
 
@@ -23,6 +27,7 @@ public class EditPicCommentActivity extends BaseAcitivity {
     private Button btnCancelComment = null;
     private Button btnFinishComment = null;
     private String filterImagePath = null;
+    private static ProgressDialog mProgressDialog = null;
 
     private void init(){
         editComment = (EditText) findViewById(R.id.edit_pic_comment);
@@ -66,15 +71,40 @@ public class EditPicCommentActivity extends BaseAcitivity {
         btnFinishComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ImageUploadUtils.uploadFile(new File(filterImagePath));
-                    }
-                }).start();
-                //finish();
+                mProgressDialog = new ProgressDialog(EditPicCommentActivity.this);
+                // 设置mProgressDialog风格
+                mProgressDialog.setProgress(ProgressDialog.STYLE_SPINNER);//圆形
+                mProgressDialog.setProgress(ProgressDialog.STYLE_HORIZONTAL);//水平
+                // 设置mProgressDialog标题
+                mProgressDialog.setTitle("上传中");
+                // 设置mProgressDialog提示
+                mProgressDialog.setMessage("图片上传中，请稍候");
+                // 设置mProgressDialog进度条的图标
+                //mProgressDialog.setIcon(R.drawable.flag);
+                // 设置mProgressDialog的进度条是否不明确
+                //不滚动时，当前值在最小和最大值之间移动，一般在进行一些无法确定操作时间的任务时作为提示，明确时就是根据你的进度可以设置现在的进度值
+                mProgressDialog.setIndeterminate(false);
+                //mProgressDialog.setProgress(m_count++);
+                // 是否可以按回退键取消
+                mProgressDialog.setCancelable(false);
+                // 设置mProgressDialog的一个Button
+//                mProgressDialog.setButton(ProgressDialog.BUTTON_POSITIVE,"确定", new DialogInterface.OnClickListener()
+//                {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which)
+//                    {
+//                        dialog.cancel();
+//                    }
+//                });
+                // 显示
+                mProgressDialog.show();
+                new ImageUploadTask().execute(filterImagePath);
             }
         });
+    }
+
+    public static void dismissProgressDialog(){
+        mProgressDialog.dismiss();
     }
 
     @Override
