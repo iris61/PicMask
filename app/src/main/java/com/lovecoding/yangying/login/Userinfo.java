@@ -1,4 +1,4 @@
-package com.lovecoding.yangying.userinfo;
+package com.lovecoding.yangying.login;
 
 /**
  * Created by yangying on 18/2/13.

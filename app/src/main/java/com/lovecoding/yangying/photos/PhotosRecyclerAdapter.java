@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.lovecoding.yangying.picmask.R;
+import com.lovecoding.yangying.tools.readProperties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class PhotosRecyclerAdapter extends RecyclerView.Adapter<PhotosRecyclerAd
 
     @Override
     public void onBindViewHolder(photosRecyclerViewHolder holder, int position) {
-        Glide.with(context).load(photos.get(position).getURL()).into(holder.photosImageView);
+        Glide.with(context).load(readProperties.getStringProperties("downloadRecentImages") + "/" + photos.get(position).getImageName()).into(holder.photosImageView);
         holder.photosCreatedTimeTextView.setText(photos.get(position).getCreatedTime());
         holder.photosCreatedUserTextView.setText(photos.get(position).getCreatedUser());
         holder.photosMemoTextView.setText(photos.get(position).getMemo());

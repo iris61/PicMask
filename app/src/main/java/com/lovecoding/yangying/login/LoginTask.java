@@ -3,10 +3,8 @@ package com.lovecoding.yangying.login;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
-import com.lovecoding.yangying.login.LoginActivity;
 import com.lovecoding.yangying.tools.LogUtils;
 import com.lovecoding.yangying.tools.readProperties;
-import com.lovecoding.yangying.userinfo.Userinfo;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;

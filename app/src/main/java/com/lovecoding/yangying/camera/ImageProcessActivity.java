@@ -62,7 +62,7 @@ public class ImageProcessActivity extends BaseAcitivity {
     private String saveBitmapFile(Bitmap bitmap) {
         String saveProcessedPic = getExternalFilesDir(Environment.DIRECTORY_DCIM) + "";//+"/picMask";
         LogUtils.d("processedImageSavePath", saveProcessedPic);
-        File processImageDir=new File(saveProcessedPic, System.currentTimeMillis()+"filter.png");
+        File processImageDir=new File(saveProcessedPic, "iris61" + System.currentTimeMillis()+"P.png");
         if(!processImageDir.exists()){
             try {
                 //根据一个 文件地址生成一个新的文件用来存照片

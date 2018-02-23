@@ -5,54 +5,55 @@ package com.lovecoding.yangying.photos;
  */
 
 public class PhotoCardInfo {
-    private String URL = null;
-    private String createdUser = null;
-    private String createdTime = null;
-    private String memo = null;
+    private String image_name = null;
+    private String create_user = null;
+    private String create_time = null;
+    private String comment = null;
+    private int image_id = 0;
 
     public PhotoCardInfo(String URL, String createdTime, String createdUser, String memo){
-        this.createdTime = createdTime;
-        this.createdUser = createdUser;
-        this.memo = memo;
-        this.URL = URL;
+        this.create_time = createdTime;
+        this.create_user = createdUser;
+        this.comment = memo;
+        this.image_name = URL;
     }
 
     public PhotoCardInfo(String URL){
-        this.createdTime = new String(" ");
-        this.createdUser = new String(" ");
-        this.memo = new String(" ");
-        this.URL = URL;
+        this.create_time = new String(" ");
+        this.create_user = new String(" ");
+        this.comment = new String(" ");
+        this.image_name = URL;
     }
 
-    public String getURL(){
-        return this.URL;
+    public String getImageName(){
+        return this.image_name;
     }
 
     public String getCreatedUser(){
-        return this.createdUser;
+        return this.create_user;
     }
 
     public String getMemo(){
-        return this.memo;
+        return this.comment;
     }
 
     public String getCreatedTime(){
-        return this.createdTime;
+        return this.create_time;
     }
 
-    public void setURL(String URL){
-        this.URL = URL;
+    public void setImageName(String URL){
+        this.image_name = URL;
     }
 
     public void setCreatedUser(String createdUser){
-        this.createdUser = createdUser;
+        this.create_user = createdUser;
     }
 
     public void setCreatedTime(String createdTime){
-        this.createdTime = createdTime;
+        this.create_time = createdTime;
     }
 
     public void setMemo(String memo){
-        this.memo = memo;
+        this.comment = memo;
     }
 }

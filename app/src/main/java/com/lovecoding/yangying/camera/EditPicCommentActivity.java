@@ -98,7 +98,7 @@ public class EditPicCommentActivity extends BaseAcitivity {
 //                });
                 // 显示
                 mProgressDialog.show();
-                new ImageUploadTask().execute(filterImagePath);
+                new ImageUploadTask().execute(filterImagePath, editComment.getText().toString());
             }
         });
     }
