@@ -5,32 +5,32 @@ package com.lovecoding.yangying.photos;
  */
 
 public class PhotoCardInfo {
-    private String image_name = null;
-    private String create_user = null;
-    private String create_time = null;
+    private String imageName = null;
+    private String createUser = null;
+    private String createTime = null;
     private String comment = null;
     private int image_id = 0;
 
     public PhotoCardInfo(String URL, String createdTime, String createdUser, String memo){
-        this.create_time = createdTime;
-        this.create_user = createdUser;
+        this.createTime = createdTime;
+        this.createUser = createdUser;
         this.comment = memo;
-        this.image_name = URL;
+        this.imageName = URL;
     }
 
     public PhotoCardInfo(String URL){
-        this.create_time = new String(" ");
-        this.create_user = new String(" ");
+        this.createTime = new String(" ");
+        this.createUser = new String(" ");
         this.comment = new String(" ");
-        this.image_name = URL;
+        this.imageName = URL;
     }
 
     public String getImageName(){
-        return this.image_name;
+        return this.imageName;
     }
 
     public String getCreatedUser(){
-        return this.create_user;
+        return this.createUser;
     }
 
     public String getMemo(){
@@ -38,19 +38,19 @@ public class PhotoCardInfo {
     }
 
     public String getCreatedTime(){
-        return this.create_time;
+        return this.createTime;
     }
 
     public void setImageName(String URL){
-        this.image_name = URL;
+        this.imageName = URL;
     }
 
     public void setCreatedUser(String createdUser){
-        this.create_user = createdUser;
+        this.createUser = createdUser;
     }
 
     public void setCreatedTime(String createdTime){
-        this.create_time = createdTime;
+        this.createTime = createdTime;
     }
 
     public void setMemo(String memo){
