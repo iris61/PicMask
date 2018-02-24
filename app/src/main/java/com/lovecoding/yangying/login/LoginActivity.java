@@ -53,6 +53,15 @@ public class LoginActivity extends BaseAcitivity {
                 new LoginTask().execute(username, password);
             }
         });
+
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signUpIntent = new Intent();
+                signUpIntent.setClass(LoginActivity.this, SignUpActivity.class);
+                startActivity(signUpIntent);
+            }
+        });
     }
 
     @Override

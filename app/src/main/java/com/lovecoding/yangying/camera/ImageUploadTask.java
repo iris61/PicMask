@@ -27,9 +27,9 @@ public class ImageUploadTask extends AsyncTask<String, Integer, Boolean>{
         LogUtils.d("upload image result", result?"login correct":"login failed");
         EditPicCommentActivity.dismissProgressDialog();
         if(result) {
-            Toast.makeText(BaseAcitivity.getContext(), "已成功上传", Toast.LENGTH_SHORT);
+            Toast.makeText(BaseAcitivity.getContext(), "已成功上传", Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(BaseAcitivity.getContext(), "上传失败，请稍后再试", Toast.LENGTH_SHORT);
+            Toast.makeText(BaseAcitivity.getContext(), "上传失败，请稍后再试", Toast.LENGTH_SHORT).show();
         }
         Intent mainActivityIntent = new Intent();
         mainActivityIntent.setClass(BaseAcitivity.getContext(), MainActivity.class);
