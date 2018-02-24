@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 import com.lovecoding.yangying.tools.LogUtils;
+import com.lovecoding.yangying.tools.UpdateSharedPreferences;
 import com.lovecoding.yangying.tools.readProperties;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -19,15 +20,19 @@ import java.io.IOException;
 
 public class LoginTask extends AsyncTask <String, Integer, Boolean>{
 
+    private String username = null;
+    private String password = null;
     @Override
     protected Boolean doInBackground(String... params) {
         //创建okHttpClient对象
         LogUtils.d("LoginTask", "create http client");
         OkHttpClient mOkHttpClient = new OkHttpClient();
         //创建请求体
+        username = params[0];
+        password = params[1];
         RequestBody requestBody = new FormEncodingBuilder()
-                .add("username", params[0])
-                .add("pwd", params[1])
+                .add("username", username)
+                .add("pwd", password)
                 .build();
         LogUtils.d("LoginTask", "create request");
         //创建一个Request
@@ -66,6 +71,8 @@ public class LoginTask extends AsyncTask <String, Integer, Boolean>{
     protected void onPostExecute(Boolean result) {
         LogUtils.d("login result", result?"login correct":"login failed");
         if(result) {
+            UpdateSharedPreferences.addStringKeyValuePair("username", username);
+            UpdateSharedPreferences.addStringKeyValuePair("password", password);
             LoginActivity.redirectToMainActivity();
         }
 

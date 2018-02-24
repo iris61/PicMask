@@ -3,6 +3,7 @@ package com.lovecoding.yangying.camera;
 /**
  * Created by yangying on 18/2/22.
  */
+import com.lovecoding.yangying.tools.UpdateSharedPreferences;
 import com.lovecoding.yangying.tools.readProperties;
 
 import java.io.BufferedReader;
@@ -34,7 +35,7 @@ public class ImageUploadUtils {
 
     private static Map<String,String> setParams(File file, String comment){
         Map<String,String> params = new HashMap<String,String>();
-        params.put("create_user", "iris61");
+        params.put("create_user", UpdateSharedPreferences.getStringValue("username"));
         SimpleDateFormat formatter = new SimpleDateFormat ("yyyy/MM/dd HH:mm:ss");
         Date curDate =  new Date(System.currentTimeMillis());
         String strDate = formatter.format(curDate);

@@ -2,6 +2,7 @@ package com.lovecoding.yangying.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import com.lovecoding.yangying.picmask.MainActivity;
 import com.lovecoding.yangying.picmask.R;
 import com.lovecoding.yangying.tools.BaseAcitivity;
 import com.lovecoding.yangying.tools.LogUtils;
+import com.lovecoding.yangying.tools.UpdateSharedPreferences;
 
 
 public class LoginActivity extends BaseAcitivity {
@@ -26,6 +28,11 @@ public class LoginActivity extends BaseAcitivity {
         signupButton = (Button) findViewById(R.id.btn_signup);
         userEdit = (EditText) findViewById(R.id.edit_username);
         pwdEdit = (EditText) findViewById(R.id.edit_password);
+
+        if(UpdateSharedPreferences.getStringValue("username").length() != 0) {
+            userEdit.setText(UpdateSharedPreferences.getStringValue("username"));
+            pwdEdit.setText(UpdateSharedPreferences.getStringValue("password"));
+        }
     }
 
     public static void redirectToMainActivity(){
