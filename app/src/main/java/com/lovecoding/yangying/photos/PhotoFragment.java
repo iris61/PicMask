@@ -49,6 +49,7 @@ public class PhotoFragment extends Fragment{
 
             @Override
             public void onDataFailed() {
+                mProgressDialog.dismiss();
                 Toast.makeText(getActivity(), "加载失败！", Toast.LENGTH_SHORT).show();
             }
         });
@@ -62,7 +63,7 @@ public class PhotoFragment extends Fragment{
             mProgressDialog.setCancelable(false);
             mProgressDialog.show();
         }
-        fetchRecentPhotosTask.execute(10);
+        fetchRecentPhotosTask.execute("10", "");
     }
     @Nullable
     @Override

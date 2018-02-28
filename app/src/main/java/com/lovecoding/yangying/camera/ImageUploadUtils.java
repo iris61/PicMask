@@ -4,15 +4,13 @@ package com.lovecoding.yangying.camera;
  * Created by yangying on 18/2/22.
  */
 import com.lovecoding.yangying.tools.UpdateSharedPreferences;
-import com.lovecoding.yangying.tools.readProperties;
+import com.lovecoding.yangying.tools.ReadProperties;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -22,8 +20,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import javax.net.ssl.HostnameVerifier;
 
 
 public class ImageUploadUtils {
@@ -49,7 +45,8 @@ public class ImageUploadUtils {
         String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
         String PREFIX = "--", LINE_END = "\r\n";
         String CONTENT_TYPE = "multipart/form-data"; // 内容类型
-        String RequestURL = readProperties.getStringProperties("uploadImageServlet");
+        String RequestURL = ReadProperties.getStringProperties("hostname") +
+                ReadProperties.getStringProperties("uploadImageServlet");
         try {
             URL url = new URL(RequestURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

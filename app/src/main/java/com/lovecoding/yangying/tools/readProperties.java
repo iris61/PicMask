@@ -10,8 +10,8 @@ import java.util.Properties;
  * Created by yangying on 18/2/22.
  */
 
-public class readProperties {
-    public readProperties(){}
+public class ReadProperties {
+    public ReadProperties(){}
     public static Properties loadProperties(Context context) {
         Properties properties = new Properties();
         try {

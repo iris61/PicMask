@@ -9,7 +9,9 @@ public class PhotoCardInfo {
     private String createUser = null;
     private String createTime = null;
     private String comment = null;
-    private int image_id = 0;
+    private int likes = 0;
+    private int imageId = 0;
+    private int selfLike = 0;
 
     public PhotoCardInfo(String URL, String createdTime, String createdUser, String memo){
         this.createTime = createdTime;
@@ -41,6 +43,12 @@ public class PhotoCardInfo {
         return this.createTime;
     }
 
+    public int getLikes() { return this.likes; }
+
+    public int getSelfLike() { return this.selfLike; }
+
+    public int getImageId() { return this.imageId; }
+
     public void setImageName(String URL){
         this.imageName = URL;
     }
@@ -56,4 +64,10 @@ public class PhotoCardInfo {
     public void setMemo(String memo){
         this.comment = memo;
     }
+
+    public void setImageId(int imageId) {this.imageId = imageId; }
+
+    public void setLikes(int likes) { this.likes = likes; }
+
+    public void setSelfLike(int selfLike) { this.selfLike = selfLike; }
 }

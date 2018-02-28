@@ -64,6 +64,8 @@ public class EditPicCommentActivity extends BaseAcitivity {
         btnCancelComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                File imageFile = new File(filterImagePath);
+                if(imageFile.exists()) imageFile.delete();
                 finish();
             }
         });

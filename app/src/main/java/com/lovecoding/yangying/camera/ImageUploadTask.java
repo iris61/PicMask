@@ -33,7 +33,7 @@ public class ImageUploadTask extends AsyncTask<String, Integer, Boolean>{
         }
         Intent mainActivityIntent = new Intent();
         mainActivityIntent.setClass(BaseAcitivity.getContext(), MainActivity.class);
-        mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+        mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
         BaseAcitivity.getContext().startActivity(mainActivityIntent);
 
     }

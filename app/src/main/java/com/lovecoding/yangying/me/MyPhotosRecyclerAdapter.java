@@ -1,4 +1,4 @@
-package com.lovecoding.yangying.photos;
+package com.lovecoding.yangying.me;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.lovecoding.yangying.ImageDetail.ImageDetailActivity;
+import com.lovecoding.yangying.photos.PhotoCardInfo;
 import com.lovecoding.yangying.picmask.R;
 import com.lovecoding.yangying.tools.BaseAcitivity;
 import com.lovecoding.yangying.tools.ReadProperties;
@@ -23,44 +24,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yangying on 18/2/19.
+ * Created by yangying on 18/2/25.
  */
 
-
-public class PhotosRecyclerAdapter extends RecyclerView.Adapter<PhotosRecyclerAdapter.photosRecyclerViewHolder>{
+public class MyPhotosRecyclerAdapter  extends RecyclerView.Adapter<MyPhotosRecyclerAdapter.photosRecyclerViewHolder>{
 
     private Context context = null;
     private List<PhotoCardInfo> photos = new ArrayList<PhotoCardInfo>();
 
-    public PhotosRecyclerAdapter(List<PhotoCardInfo> photos, Context context){
+    public MyPhotosRecyclerAdapter(List<PhotoCardInfo> photos, Context context){
         this.photos = photos;
         this.context = context;
     }
 
     @Override
-    public photosRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_photos
+    public MyPhotosRecyclerAdapter.photosRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_photos
                 ,parent,false);
-        return new photosRecyclerViewHolder(view);
+        return new MyPhotosRecyclerAdapter.photosRecyclerViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(photosRecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(MyPhotosRecyclerAdapter.photosRecyclerViewHolder holder, int position) {
         holder.image_name = photos.get(position).getImageName();
         holder.likes = photos.get(position).getLikes();
-        holder.image_id = photos.get(position).getImageId();
         holder.self_like = photos.get(position).getSelfLike();
+        holder.image_id = photos.get(position).getImageId();
         if(Tools.judgeLocalImages(holder.image_name)){
-            Glide.with(context).load(new File(BaseAcitivity.getContext().getExternalFilesDir(Environment.DIRECTORY_DCIM) + "", holder.image_name)).into(holder.photosImageView);
+            Glide.with(context).load(new File(BaseAcitivity.getContext().getExternalFilesDir(Environment.DIRECTORY_DCIM) + "", holder.image_name)).into(holder.myPhotosImageView);
         }else {
             Glide.with(context).load(ReadProperties.getStringProperties("hostname") +
                     ReadProperties.getStringProperties("downloadRecentImages") + "/" +
-                    holder.image_name).into(holder.photosImageView);
+                    holder.image_name).into(holder.myPhotosImageView);
         }
-        holder.photosCreatedTimeTextView.setText(photos.get(position).getCreatedTime());
-        holder.photosCreatedUserTextView.setText(photos.get(position).getCreatedUser());
-        holder.photosMemoTextView.setText(photos.get(position).getMemo());
+        holder.myPhotosCreatedTimeTextView.setText(photos.get(position).getCreatedTime());
+        holder.myPhotosMemoTextView.setText(photos.get(position).getMemo());
         holder.photosCardView.setTag(photos.get(position));
         holder.photosCardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,34 +90,28 @@ public class PhotosRecyclerAdapter extends RecyclerView.Adapter<PhotosRecyclerAd
         int image_id = 0;
         int likes = 0;
         int self_like = 0;
-        ImageView photosImageView;
-        TextView photosMemoTextView;
-        TextView photosCreatedUserTextView;
-        TextView photosCreatedTimeTextView;
+        ImageView myPhotosImageView;
+        TextView myPhotosMemoTextView;
+        TextView myPhotosCreatedTimeTextView;
         CardView photosCardView;
         String image_name = null;
         public photosRecyclerViewHolder(View itemView) {
             super(itemView);
-            photosImageView = (ImageView) itemView.findViewById(R.id.photosCardImageView);
-            photosCreatedTimeTextView = (TextView) itemView.findViewById(R.id.photo_created_time);
-            photosCreatedUserTextView = (TextView) itemView.findViewById(R.id.photo_created_user);
-            photosMemoTextView = (TextView) itemView.findViewById(R.id.text_photo_memo);
-            photosCardView = (CardView) itemView.findViewById(R.id.card_photos_item);
+            myPhotosImageView = (ImageView) itemView.findViewById(R.id.myPhotosCardImageView);
+            myPhotosCreatedTimeTextView = (TextView) itemView.findViewById(R.id.my_photo_created_time);
+            myPhotosMemoTextView = (TextView) itemView.findViewById(R.id.text_my_photo_memo);
+            photosCardView = (CardView) itemView.findViewById(R.id.card_my_photos_item);
         }
-
         public int getImageId(){
             return this.image_id;
         }
+
         public int getLikes(){
             return this.likes;
         }
 
-        public String getCreateUser() {
-            return this.photosCreatedUserTextView.getText().toString();
-        }
-
         public String getCreateTime() {
-            return this.photosCreatedTimeTextView.getText().toString();
+            return this.myPhotosCreatedTimeTextView.getText().toString();
         }
 
         public String getImageName() {
@@ -126,7 +119,7 @@ public class PhotosRecyclerAdapter extends RecyclerView.Adapter<PhotosRecyclerAd
         }
 
         public String getMemo() {
-            return this.photosMemoTextView.getText().toString();
+            return this.myPhotosMemoTextView.getText().toString();
         }
 
         public int getSelfLike() {return this.self_like;}

@@ -4,36 +4,38 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.lovecoding.yangying.tools.readProperties;
-import com.lovecoding.yangying.login.Userinfo;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
+import com.lovecoding.yangying.tools.ReadProperties;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 /**
  * Created by yangying on 18/2/23.
  */
 
-public class FetchRecentPhotosTask extends AsyncTask<Integer, Integer, List<PhotoCardInfo>> {
+public class FetchRecentPhotosTask extends AsyncTask<String, Integer, List<PhotoCardInfo>> {
     OnDataFinishedListener onDataFinishedListener;
 
     @Override
-    protected List<PhotoCardInfo> doInBackground(Integer... params) {
+    protected List<PhotoCardInfo> doInBackground(String... params) {
         OkHttpClient mOkHttpClient = new OkHttpClient();
         //创建请求体
-        RequestBody requestBody = new FormEncodingBuilder()
-                .add("num", params[0] + "")
+        RequestBody requestBody = new FormBody.Builder()
+                .add("num", Integer.parseInt(params[0]) + "")
+                .add("username", params[1])
                 .build();
         //创建一个Request
         final Request request = new Request.Builder()
-                .url(readProperties.getStringProperties("fetchRecentImages"))
+                .url(ReadProperties.getStringProperties("hostname")
+                        + ReadProperties.getStringProperties("fetchRecentImages"))
                 .post(requestBody)
                 .build();
 

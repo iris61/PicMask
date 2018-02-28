@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name="com.lovecoding.yangying.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +28,10 @@
         <activity
             android:name="com.lovecoding.yangying.login.SignUpActivity"
             android:label="@string/title_activity_sign_up"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.lovecoding.yangying.ImageDetail.ImageDetailActivity"
+            android:label="@string/title_activity_image_detail"
             android:theme="@style/AppTheme"></activity>
     </application>
 
