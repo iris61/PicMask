@@ -42,7 +42,7 @@ public class SubmitCommentsTask extends AsyncTask<CommentsInfo, Integer, Boolean
             OkHttpClient mOkHttpClient = new OkHttpClient();
             //创建请求体
             RequestBody requestBody = new FormBody.Builder()
-                    .add("userId", params[0].getUserId() + "")
+                    .add("userName", params[0].getUserName() + "")
                     .add("imageId", params[0].getImageId() + "")
                     .add("replyToComment", params[0].getReplyToComment() + "")
                     .add("content", params[0].getContent() + "")

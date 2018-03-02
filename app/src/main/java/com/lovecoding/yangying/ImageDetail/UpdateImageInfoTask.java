@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.lovecoding.yangying.tools.LogUtils;
 import com.lovecoding.yangying.tools.ReadProperties;
+import com.lovecoding.yangying.tools.UpdateSharedPreferences;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -18,11 +19,8 @@ import okhttp3.Response;
 public class UpdateImageInfoTask extends AsyncTask<Integer, Integer, Boolean>{
     OnDataFinishedListener onDataFinishedListener;
 
-    public static final int REMOVE_LIKE = 2;
-    public static final int ADD_LIKE = 1;
+    public static final int TOGGLE_LIKE = 1;
     public static final int REMOVE_IMAGE = 3;
-    public static final int SELF_OPERATION = 1;
-    public static final int OTHERS_OPERATION = 0;
 
     public void setOnDataFinishedListener(OnDataFinishedListener listener){
         this.onDataFinishedListener = listener;
@@ -34,17 +32,13 @@ public class UpdateImageInfoTask extends AsyncTask<Integer, Integer, Boolean>{
         //创建请求体
         int imageId = params[0];
         int action = params[1];
-        int self = params[2];
         String actionStr = null;
         switch (action) {
             case REMOVE_IMAGE:
                 actionStr = "removeImage";
                 break;
-            case REMOVE_LIKE:
-                actionStr = "removeLike";
-                break;
-            case ADD_LIKE:
-                actionStr = "addLike";
+            case TOGGLE_LIKE:
+                actionStr = "toggleLike";
                 break;
             default:
                 actionStr = "unknown";
@@ -53,7 +47,7 @@ public class UpdateImageInfoTask extends AsyncTask<Integer, Integer, Boolean>{
         RequestBody requestBody = new FormBody.Builder()
                 .add("imageId", imageId + "")
                 .add("action", actionStr)
-                .add("self", self + "")
+                .add("username", UpdateSharedPreferences.getStringValue("username"))
                 .build();
 
         //创建一个Request
@@ -64,7 +58,6 @@ public class UpdateImageInfoTask extends AsyncTask<Integer, Integer, Boolean>{
                 .build();
         Response response = null;
         try {
-            LogUtils.d("LoginTask", "start");
             response = mOkHttpClient.newCall(request).execute();
         }catch (Exception e) {
             e.printStackTrace();

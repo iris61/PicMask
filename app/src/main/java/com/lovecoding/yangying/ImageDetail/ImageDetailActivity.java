@@ -40,7 +40,7 @@ public class ImageDetailActivity extends AppCompatActivity {
     private TextView textCreateTime = null;
     private Button btnDeleteThisImage = null;
     private Button btnLikeAction = null;
-    private EditText editMemo = null;
+    private EditTextAddHostReply editMemo = null;
     private Button sendMemo = null;
     private RecyclerView recyclerCommentsView = null;
     private TextView textCreateUser = null;
@@ -62,6 +62,14 @@ public class ImageDetailActivity extends AppCompatActivity {
                 LogUtils.v("return comments info", data.toString());
                 commentsInfoList = (List<CommentsInfo>)data;
                 CommentsRecyclerAdapter commentsRecyclerAdapter = new CommentsRecyclerAdapter(commentsInfoList, getApplicationContext());
+                commentsRecyclerAdapter.setOnItemClickedListener(new CommentsRecyclerAdapter.OnItemClickedListener() {
+                    @Override
+                    public void OnItemClicked(String replyToUsername, int reply_comment_id, int host_comment) {
+                        editMemo.setHint(UpdateSharedPreferences.getStringValue("username") + " 回复：" + replyToUsername);
+                        editMemo.setHostComment(host_comment);
+                        editMemo.setReplyToComment(reply_comment_id);
+                    }
+                });
                 recyclerCommentsView.setAdapter(commentsRecyclerAdapter);
                 commentsRecyclerAdapter.notifyDataSetChanged();
             }
@@ -81,7 +89,7 @@ public class ImageDetailActivity extends AppCompatActivity {
         comment = imageDetailActivityIntent.getStringExtra("memo");
         imageId = imageDetailActivityIntent.getIntExtra("imageId", 0);
         likes = imageDetailActivityIntent.getIntExtra("likes", 0);
-        selfLike = imageDetailActivityIntent.getIntExtra("self_like", 0);
+        selfLike = imageDetailActivityIntent.getIntExtra("selfLike", 0);
         imageName = imageDetailActivityIntent.getStringExtra("imageName");
 
         imageView = (ImageView) findViewById(R.id.image_detail_image_info);
@@ -100,6 +108,7 @@ public class ImageDetailActivity extends AppCompatActivity {
         textCreateTime.setText(createTime);
 
         btnDeleteThisImage = (Button) findViewById(R.id.btn_delete_image_detail);
+        if(!createUser.equals(UpdateSharedPreferences.getStringValue("username"))) btnDeleteThisImage.setVisibility(View.GONE);
 
         btnLikeAction = (Button) findViewById(R.id.btn_like_image_detail);
         btnLikeAction.setText(likes + " Likes");
@@ -109,7 +118,7 @@ public class ImageDetailActivity extends AppCompatActivity {
             btnLikeAction.setCompoundDrawables(leftDrawable, null, null, null );
         }
 
-        editMemo = (EditText) findViewById(R.id.edit_image_comments);
+        editMemo = (EditTextAddHostReply) findViewById(R.id.edit_image_comments);
         sendMemo = (Button) findViewById(R.id.btn_send_image_comment);
         recyclerCommentsView = (RecyclerView) findViewById(R.id.recycler_image_comments);
 
@@ -131,11 +140,11 @@ public class ImageDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
             String memo = editMemo.getText().toString();
             //String userId = UpdateSharedPreferences.getStringValue("username");
-            int userId = 1;
             Date curDate =  new Date(System.currentTimeMillis());
             SimpleDateFormat formatter = new SimpleDateFormat ("yyyy/MM/dd HH:mm:ss");
             String strDate = formatter.format(curDate);
-            CommentsInfo commentsInfo= new CommentsInfo(userId, imageId, 0, memo, strDate, 0);
+            CommentsInfo commentsInfo= new CommentsInfo(UpdateSharedPreferences.getStringValue("username"), imageId, editMemo.getReplyToComment(), memo, strDate,
+                    editMemo.getHostComment() == 0 ? editMemo.getReplyToComment() : editMemo.getHostComment());
             SubmitCommentsTask submitCommentsTask = new SubmitCommentsTask();
             submitCommentsTask.setOnDataFinishedListener(new SubmitCommentsTask.OnDataFinishedListener() {
                 @Override
@@ -168,7 +177,7 @@ public class ImageDetailActivity extends AppCompatActivity {
 
                     }
                 });
-                deleteThisImage.execute(imageId, UpdateImageInfoTask.REMOVE_IMAGE, UpdateImageInfoTask.SELF_OPERATION);
+                deleteThisImage.execute(imageId, UpdateImageInfoTask.REMOVE_IMAGE);
             }
         });
 
@@ -193,7 +202,7 @@ public class ImageDetailActivity extends AppCompatActivity {
 
                         }
                     });
-                    removeLikeTask.execute(imageId, UpdateImageInfoTask.REMOVE_LIKE, UpdateImageInfoTask.SELF_OPERATION);
+                    removeLikeTask.execute(imageId, UpdateImageInfoTask.TOGGLE_LIKE);
                 }else {
                     UpdateImageInfoTask addLikeTask = new UpdateImageInfoTask();
                     addLikeTask.setOnDataFinishedListener(new UpdateImageInfoTask.OnDataFinishedListener() {
@@ -212,7 +221,7 @@ public class ImageDetailActivity extends AppCompatActivity {
 
                         }
                     });
-                    addLikeTask.execute(imageId, UpdateImageInfoTask.ADD_LIKE, UpdateImageInfoTask.SELF_OPERATION);
+                    addLikeTask.execute(imageId, UpdateImageInfoTask.TOGGLE_LIKE);
                 }
             }
         });

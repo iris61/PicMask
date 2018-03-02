@@ -45,9 +45,11 @@ public class PhotoCardInfo {
 
     public int getLikes() { return this.likes; }
 
-    public int getSelfLike() { return this.selfLike; }
-
     public int getImageId() { return this.imageId; }
+
+    public int getSelfLike() {
+        return selfLike;
+    }
 
     public void setImageName(String URL){
         this.imageName = URL;
@@ -69,5 +71,7 @@ public class PhotoCardInfo {
 
     public void setLikes(int likes) { this.likes = likes; }
 
-    public void setSelfLike(int selfLike) { this.selfLike = selfLike; }
+    public void setSelfLike(int selfLike) {
+        this.selfLike = selfLike;
+    }
 }

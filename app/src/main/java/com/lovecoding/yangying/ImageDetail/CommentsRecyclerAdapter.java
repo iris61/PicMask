@@ -21,6 +21,15 @@ public class CommentsRecyclerAdapter  extends RecyclerView.Adapter<CommentsRecyc
 
     private Context context = null;
     private List<CommentsInfo> comments = new ArrayList<CommentsInfo>();
+    OnItemClickedListener onItemClickedListener;
+
+    public void setOnItemClickedListener(OnItemClickedListener listener){
+        this.onItemClickedListener = listener;
+    }
+
+    public interface OnItemClickedListener {
+        public void OnItemClicked(String replyToUsername, int reply_comment_id, int host_comment);
+    }
 
     public CommentsRecyclerAdapter(List<CommentsInfo> comments, Context context){
         this.comments = comments;
@@ -40,19 +49,21 @@ public class CommentsRecyclerAdapter  extends RecyclerView.Adapter<CommentsRecyc
         holder.comment_id = comments.get(position).getCommentId();
         holder.host_comment = comments.get(position).getHostComment();
         if(holder.host_comment == 0) {
-            holder.textHostCommentsItem.setText(comments.get(position).getUserId() + ": " +
+            holder.textHostCommentsItem.setText(comments.get(position).getUserName() + ": " +
                     comments.get(position).getContent());
             holder.textReplyCommentsItem.setVisibility(View.GONE);
         }else {
-            holder.textReplyCommentsItem.setText(comments.get(position).getUserId() + " 回复: " +
-                    comments.get(position).getReplyToComment() +
+            holder.textReplyCommentsItem.setText(comments.get(position).getUserName() + " 回复: " +
+                    comments.get(position).getReplyToCommentUser() +
                     comments.get(position).getContent());
             holder.textHostCommentsItem.setVisibility(View.GONE);
         }
+
+        holder.layoutItemComment.setTag(comments.get(position));
         holder.layoutItemComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                onItemClickedListener.OnItemClicked(((CommentsInfo)v.getTag()).getUserName(), ((CommentsInfo)v.getTag()).getCommentId(), ((CommentsInfo)v.getTag()).getHostComment());
             }
         });
     }

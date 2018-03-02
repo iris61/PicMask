@@ -63,16 +63,21 @@ public class MeFragment extends Fragment {
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(false);
             mProgressDialog.show();
-        fetchRecentPhotosTask.execute("10", UpdateSharedPreferences.getStringValue("username"));
+        fetchRecentPhotosTask.execute("10", UpdateSharedPreferences.getStringValue("username"),UpdateSharedPreferences.getStringValue("username"));
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_me,container,false);
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         init();
         executeQueryImages();
-        return view;
     }
 
     private void init(){

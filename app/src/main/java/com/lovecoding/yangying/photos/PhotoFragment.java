@@ -17,6 +17,7 @@ import com.lovecoding.yangying.camera.EditPicCommentActivity;
 import com.lovecoding.yangying.picmask.R;
 import com.lovecoding.yangying.tools.BaseAcitivity;
 import com.lovecoding.yangying.tools.LogUtils;
+import com.lovecoding.yangying.tools.UpdateSharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,15 +64,20 @@ public class PhotoFragment extends Fragment{
             mProgressDialog.setCancelable(false);
             mProgressDialog.show();
         }
-        fetchRecentPhotosTask.execute("10", "");
+        fetchRecentPhotosTask.execute("10", UpdateSharedPreferences.getStringValue("username"),"");
     }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_photos,container,false);
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         initRecyclerView();
         executeQueryImages();
-        return view;
     }
 
     private void initRecyclerView(){

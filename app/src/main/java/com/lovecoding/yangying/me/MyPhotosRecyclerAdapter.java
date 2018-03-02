@@ -49,7 +49,6 @@ public class MyPhotosRecyclerAdapter  extends RecyclerView.Adapter<MyPhotosRecyc
     public void onBindViewHolder(MyPhotosRecyclerAdapter.photosRecyclerViewHolder holder, int position) {
         holder.image_name = photos.get(position).getImageName();
         holder.likes = photos.get(position).getLikes();
-        holder.self_like = photos.get(position).getSelfLike();
         holder.image_id = photos.get(position).getImageId();
         if(Tools.judgeLocalImages(holder.image_name)){
             Glide.with(context).load(new File(BaseAcitivity.getContext().getExternalFilesDir(Environment.DIRECTORY_DCIM) + "", holder.image_name)).into(holder.myPhotosImageView);
@@ -71,9 +70,9 @@ public class MyPhotosRecyclerAdapter  extends RecyclerView.Adapter<MyPhotosRecyc
                 imageDetailActivityIntent.putExtra("createTime", ((PhotoCardInfo)v.getTag()).getCreatedTime());
                 imageDetailActivityIntent.putExtra("memo", ((PhotoCardInfo)v.getTag()).getMemo());
                 imageDetailActivityIntent.putExtra("imageId", ((PhotoCardInfo)v.getTag()).getImageId());
-                imageDetailActivityIntent.putExtra("self_like", ((PhotoCardInfo)v.getTag()).getSelfLike());
                 imageDetailActivityIntent.putExtra("likes", ((PhotoCardInfo)v.getTag()).getLikes());
                 imageDetailActivityIntent.putExtra("imageName", ((PhotoCardInfo)v.getTag()).getImageName());
+                imageDetailActivityIntent.putExtra("selfLike", ((PhotoCardInfo)v.getTag()).getSelfLike());
                 BaseAcitivity.getContext().startActivity(imageDetailActivityIntent);
             }
         });
@@ -89,7 +88,6 @@ public class MyPhotosRecyclerAdapter  extends RecyclerView.Adapter<MyPhotosRecyc
 
         int image_id = 0;
         int likes = 0;
-        int self_like = 0;
         ImageView myPhotosImageView;
         TextView myPhotosMemoTextView;
         TextView myPhotosCreatedTimeTextView;
@@ -121,7 +119,5 @@ public class MyPhotosRecyclerAdapter  extends RecyclerView.Adapter<MyPhotosRecyc
         public String getMemo() {
             return this.myPhotosMemoTextView.getText().toString();
         }
-
-        public int getSelfLike() {return this.self_like;}
     }
 }

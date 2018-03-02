@@ -31,6 +31,7 @@ public class FetchRecentPhotosTask extends AsyncTask<String, Integer, List<Photo
         RequestBody requestBody = new FormBody.Builder()
                 .add("num", Integer.parseInt(params[0]) + "")
                 .add("username", params[1])
+                .add("me", params[2])
                 .build();
         //创建一个Request
         final Request request = new Request.Builder()
