@@ -7,6 +7,7 @@
     <color name="colorPrimaryLight">#1033F5</color>
     <color name="colorBlueLight">#3FAAFF</color>
     <color name="colorLightGray">#aaa</color>
+    <color name="colorLightLightGray">#eee</color>
     <color name="colorWhite">#fff</color>
     <color name="colorDeepGray">#555</color>
 </resources>

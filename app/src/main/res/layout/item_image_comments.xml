@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="15dp"
-    android:background="@color/colorLightGray"
+    android:layout_height="20dp"
+    android:background="@color/colorLightLightGray"
     android:id="@+id/layout_item_comment">
     <TextView
         android:textColor="@color/colorBlack"
         android:layout_width="match_parent"
-        android:layout_height="15dp"
+        android:layout_height="20dp"
         android:id="@+id/text_host_comments_item"/>
     <TextView
         android:textColor="@color/colorBlack"
         android:paddingLeft="50dp"
         android:layout_width="match_parent"
-        android:layout_height="15dp"
+        android:layout_height="20dp"
         android:id="@+id/text_reply_comments_item"/>
 </LinearLayout>

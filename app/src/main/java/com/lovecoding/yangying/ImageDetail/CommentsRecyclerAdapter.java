@@ -22,6 +22,15 @@ public class CommentsRecyclerAdapter  extends RecyclerView.Adapter<CommentsRecyc
     private Context context = null;
     private List<CommentsInfo> comments = new ArrayList<CommentsInfo>();
     OnItemClickedListener onItemClickedListener;
+    int position = 0;
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public int getPosition() {
+        return position;
+    }
 
     public void setOnItemClickedListener(OnItemClickedListener listener){
         this.onItemClickedListener = listener;
@@ -45,7 +54,7 @@ public class CommentsRecyclerAdapter  extends RecyclerView.Adapter<CommentsRecyc
     }
 
     @Override
-    public void onBindViewHolder(CommentsRecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(CommentsRecyclerViewHolder holder, final int position) {
         holder.comment_id = comments.get(position).getCommentId();
         holder.host_comment = comments.get(position).getHostComment();
         if(holder.host_comment == 0) {
@@ -63,6 +72,7 @@ public class CommentsRecyclerAdapter  extends RecyclerView.Adapter<CommentsRecyc
         holder.layoutItemComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setPosition(position);
                 onItemClickedListener.OnItemClicked(((CommentsInfo)v.getTag()).getUserName(), ((CommentsInfo)v.getTag()).getCommentId(), ((CommentsInfo)v.getTag()).getHostComment());
             }
         });

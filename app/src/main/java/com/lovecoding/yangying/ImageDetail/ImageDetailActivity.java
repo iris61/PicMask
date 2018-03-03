@@ -1,5 +1,8 @@
 package com.lovecoding.yangying.ImageDetail;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -11,6 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,6 +58,7 @@ public class ImageDetailActivity extends AppCompatActivity {
     private int selfLike = 0;
     private int likes = 0;
     private int imageId = 0;
+    private CommentsRecyclerAdapter commentsRecyclerAdapter = null;
     private List<CommentsInfo> commentsInfoList = new ArrayList<CommentsInfo>();
     private FetchCommentsTask fetchCommentsTask = null;
 
@@ -61,13 +69,17 @@ public class ImageDetailActivity extends AppCompatActivity {
             public void onDataSuccessfully(Object data) {
                 LogUtils.v("return comments info", data.toString());
                 commentsInfoList = (List<CommentsInfo>)data;
-                CommentsRecyclerAdapter commentsRecyclerAdapter = new CommentsRecyclerAdapter(commentsInfoList, getApplicationContext());
+                commentsRecyclerAdapter = new CommentsRecyclerAdapter(commentsInfoList, getApplicationContext());
                 commentsRecyclerAdapter.setOnItemClickedListener(new CommentsRecyclerAdapter.OnItemClickedListener() {
                     @Override
                     public void OnItemClicked(String replyToUsername, int reply_comment_id, int host_comment) {
-                        editMemo.setHint(UpdateSharedPreferences.getStringValue("username") + " 回复：" + replyToUsername);
-                        editMemo.setHostComment(host_comment);
-                        editMemo.setReplyToComment(reply_comment_id);
+                     if(!replyToUsername.equals(UpdateSharedPreferences.getStringValue("username"))) {
+                         editMemo.setHint(UpdateSharedPreferences.getStringValue("username") + " 回复：" + replyToUsername);
+                         editMemo.setHostComment(host_comment);
+                         editMemo.setReplyToComment(reply_comment_id);
+                     }else {
+                         openContextMenu(recyclerCommentsView);
+                     }
                     }
                 });
                 recyclerCommentsView.setAdapter(commentsRecyclerAdapter);
@@ -129,9 +141,52 @@ public class ImageDetailActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new AutoLinearLayout(getApplicationContext());
         //layoutManager.setAutoMeasureEnabled(true);
         recyclerCommentsView.setLayoutManager(layoutManager);
-        CommentsRecyclerAdapter commentsRecyclerAdapter = new CommentsRecyclerAdapter(commentsInfoList, getApplicationContext());
+        commentsRecyclerAdapter = new CommentsRecyclerAdapter(commentsInfoList, getApplicationContext());
         recyclerCommentsView.setAdapter(commentsRecyclerAdapter);
         recyclerCommentsView.setNestedScrollingEnabled(false);
+        registerForContextMenu(recyclerCommentsView);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        MenuInflater mInflater = getMenuInflater();
+        mInflater.inflate(R.menu.menu_right_click_comment, menu);
+
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.comment_delete:
+                int delImageId = commentsInfoList.get(commentsRecyclerAdapter.getPosition()).getCommentId();
+                DeleteCommentTask deleteCommentTask = new DeleteCommentTask();
+                deleteCommentTask.setOnDataFinishedListener(new DeleteCommentTask.OnDataFinishedListener() {
+                    @Override
+                    public void onDataSuccessfully() {
+                        fetchComments();
+                    }
+
+                    @Override
+                    public void onDataFailed() {}
+                });
+                deleteCommentTask.execute(delImageId);
+                break;
+            case R.id.comment_copy:
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                // 将文本内容放到系统剪贴板里
+                cm.setPrimaryClip(ClipData.newPlainText(null, commentsInfoList.get(commentsRecyclerAdapter.getPosition()).getContent()));
+                Toast.makeText(BaseAcitivity.getContext(), "复制成功", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onContextMenuClosed(Menu menu) {
+        super.onContextMenuClosed(menu);
     }
 
     private void bindEvent() {
@@ -150,6 +205,9 @@ public class ImageDetailActivity extends AppCompatActivity {
                 @Override
                 public void onDataSuccessfully() {
                     editMemo.setText("");
+                    editMemo.setHint("评论");
+                    editMemo.setReplyToComment(0);
+                    editMemo.setHostComment(0);
                     fetchComments();
                 }
 
@@ -237,4 +295,9 @@ public class ImageDetailActivity extends AppCompatActivity {
         bindEvent();
     }
 
+    @Override
+    protected void onDestroy() {
+        unregisterForContextMenu(recyclerCommentsView);
+        super.onDestroy();
+    }
 }
